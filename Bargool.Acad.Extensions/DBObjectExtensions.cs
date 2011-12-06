@@ -42,7 +42,7 @@ namespace Bargool.Acad.Extensions
 				}
 				else {
 					dict.SetAt(xrecordName, xrecord);
-					o.Database.TransactionManager.AddNewlyCreatedDBObject(o, true);
+					o.Database.TransactionManager.AddNewlyCreatedDBObject(xrecord, true);
 				}
 				if (rewrite) {
 					xrecord.Data = buffer;
