@@ -105,6 +105,7 @@ namespace Bargool.Acad.Extensions
 				{
 					if (dict.Contains(xrecordName))
 					{
+						dict.UpgradeOpen();
 					    dict.Remove(xrecordName);
 					    if (dict.Count==0)
 					    {
