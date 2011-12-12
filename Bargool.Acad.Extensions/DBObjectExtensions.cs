@@ -123,10 +123,13 @@ namespace Bargool.Acad.Extensions
 					    dict.Remove(xrecordName);
 					    if (dict.Count==0)
 					    {
-					    	dict.Erase();
+//					    	o.ExtensionDictionary.IsEffectivelyErased
+					    	dict.Erase(true);
 					    }
 					}
 				}
+//		    	AuditInfo ai = (AuditInfo)AuditInfo.Create(typeof(AuditInfo), o.UnmanagedObject, true);
+//		    	o.Audit(ai);
 			}
 		}
 	}
