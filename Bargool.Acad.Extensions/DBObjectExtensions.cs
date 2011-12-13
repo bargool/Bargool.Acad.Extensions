@@ -121,15 +121,9 @@ namespace Bargool.Acad.Extensions
 					{
 						dict.UpgradeOpen();
 					    dict.Remove(xrecordName);
-					    if (dict.Count==0)
-					    {
-//					    	o.ExtensionDictionary.IsEffectivelyErased
-					    	dict.Erase(true);
-					    }
 					}
 				}
-//		    	AuditInfo ai = (AuditInfo)AuditInfo.Create(typeof(AuditInfo), o.UnmanagedObject, true);
-//		    	o.Audit(ai);
+				o.ReleaseExtensionDictionary();
 			}
 		}
 	}
