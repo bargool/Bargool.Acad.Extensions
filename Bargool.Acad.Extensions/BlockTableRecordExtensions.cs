@@ -21,9 +21,12 @@ namespace Bargool.Acad.Extensions
 			Dictionary<string, List<ObjectId>> result = new Dictionary<string, List<ObjectId>>();
 			foreach (ObjectId id in btr)
 			{
-				if (!result.ContainsKey(id.ObjectClass.Name))
-					result.Add(id.ObjectClass.Name, new List<ObjectId>());
-				result[id.ObjectClass.Name].Add(id);
+				if (id.IsValid&&!id.IsErased&&!id.IsNull)
+				{
+					if (!result.ContainsKey(id.ObjectClass.Name))
+						result.Add(id.ObjectClass.Name, new List<ObjectId>());
+					result[id.ObjectClass.Name].Add(id);
+				}
 			}
 			return result;
 		}
