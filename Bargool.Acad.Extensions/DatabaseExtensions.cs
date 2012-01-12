@@ -18,6 +18,11 @@ namespace Bargool.Acad.Extensions
 	{
 		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db)
 		{
+			return db.GetEntities(false, false);
+		}
+		
+		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db, bool EvalOffLayers, bool EvalFrozenLayers)
+		{
 			Dictionary<string, List<ObjectId>> result = new Dictionary<string, List<ObjectId>>();
 			using (Transaction tr = db.TransactionManager.StartTransaction())
 			{
@@ -25,7 +30,7 @@ namespace Bargool.Acad.Extensions
 				foreach (ObjectId btrId in bt)
 				{
 					BlockTableRecord btr = (BlockTableRecord)tr.GetObject(btrId, OpenMode.ForRead);
-					foreach (KeyValuePair<string, List<ObjectId>> kvp in btr.GetObjects())
+					foreach (KeyValuePair<string, List<ObjectId>> kvp in btr.GetObjects(EvalOffLayers, EvalFrozenLayers))
 					{
 						if (!result.ContainsKey(kvp.Key))
 						{
