@@ -88,7 +88,7 @@ namespace Bargool.Acad.Extensions
 			if (xrecordName == null)
 				throw new ArgumentNullException("xrecordName is null");
 			if (o.ExtensionDictionary != ObjectId.Null &&
-			   !o.ExtensionDictionary.IsErased)
+			    !o.ExtensionDictionary.IsErased)
 			{
 				using (DBDictionary dict = (DBDictionary)o.ExtensionDictionary.GetObject(OpenMode.ForRead))
 				{
@@ -110,20 +110,24 @@ namespace Bargool.Acad.Extensions
 		/// <param name="xrecordName">Имя записи</param>
 		public static void DeleteXrecord(this DBObject o, string xrecordName)
 		{
+			bool delDict = false;
 			if (xrecordName == null)
 				throw new ArgumentNullException("xrecordName is null");
 			if (o.ExtensionDictionary != ObjectId.Null &&
-			   !o.ExtensionDictionary.IsErased)
+			    !o.ExtensionDictionary.IsErased)
 			{
 				using (DBDictionary dict = (DBDictionary)o.ExtensionDictionary.GetObject(OpenMode.ForRead))
 				{
 					if (dict.Contains(xrecordName))
 					{
 						dict.UpgradeOpen();
-					    dict.Remove(xrecordName);
+						dict.Remove(xrecordName);
+						if (dict.Count == 0)
+							delDict = true;
 					}
 				}
-				o.ReleaseExtensionDictionary();
+				if (delDict)
+					o.ReleaseExtensionDictionary();
 			}
 		}
 	}
