@@ -35,7 +35,11 @@ namespace Bargool.Acad.Extensions
 				foreach (ObjectId btrId in bt)
 				{
 					BlockTableRecord btr = (BlockTableRecord)tr.GetObject(btrId, OpenMode.ForRead);
-					if (!btr.IsAnonymous)
+					if (btr.IsAnonymous&&!EvalAnonymBlocks)
+					{
+						continue;
+					}
+					else
 					{
 						foreach (KeyValuePair<string, List<ObjectId>> kvp in btr.GetObjects(EvalOffLayers, EvalFrozenLayers))
 						{
