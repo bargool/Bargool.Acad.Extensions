@@ -21,12 +21,25 @@ namespace Bargool.Acad.Extensions
 			return db.GetEntities(false, false, false);
 		}
 		
-		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db, bool EvalOffLayers, bool EvalFrozenLayers)
+		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db,
+		                                                             bool EvalOffLayers,
+		                                                             bool EvalFrozenLayers)
 		{
 			return db.GetEntities(EvalOffLayers, EvalFrozenLayers, false);
 		}
+		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db,
+		                                                             bool EvalOffLayers,
+		                                                             bool EvalFrozenLayers,
+		                                                             bool EvalAnonymBlocks)
+		{
+			return db.GetEntities(EvalOffLayers, EvalFrozenLayers, EvalAnonymBlocks, false);
+		}
 		
-		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db, bool EvalOffLayers, bool EvalFrozenLayers, bool EvalAnonymBlocks)
+		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db,
+		                                                             bool EvalOffLayers,
+		                                                             bool EvalFrozenLayers,
+		                                                             bool EvalAnonymBlocks,
+		                                                             bool EvalXrefs)
 		{
 			Dictionary<string, List<ObjectId>> result = new Dictionary<string, List<ObjectId>>();
 			using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -35,6 +48,8 @@ namespace Bargool.Acad.Extensions
 				foreach (ObjectId btrId in bt)
 				{
 					BlockTableRecord btr = (BlockTableRecord)tr.GetObject(btrId, OpenMode.ForRead);
+					if (btr.IsFromExternalReference&&!EvalXrefs)
+						continue;
 					if (btr.IsAnonymous&&!EvalAnonymBlocks)
 					{
 						continue;
