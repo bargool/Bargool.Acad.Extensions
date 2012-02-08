@@ -14,17 +14,16 @@ namespace Bargool.Acad.Extensions
 	/// </summary>
 	public static class BlockReferenceExtensions
 	{
-		public static string GetBlockName(this BlockReference o)
+		/// <summary>
+		/// Возвращает эффективное имя блока (т.е. если блок анонимный, полученный из динамического
+		/// - вернёт имя динамического блока)
+		/// </summary>
+		/// <param name="o">Вхождение блока</param>
+		/// <returns>Эффективное имя блока</returns>
+		public static string GetEffectiveName(this BlockReference o)
 		{
-//			if (o.IsDynamicBlock)
-//			{
 				BlockTableRecord btr = (BlockTableRecord)o.DynamicBlockTableRecord.GetObject(OpenMode.ForRead);
 				return btr.Name;
-//			}
-//			else
-//			{
-//				return o.Name;
-//			}
 		}
 	}
 }
