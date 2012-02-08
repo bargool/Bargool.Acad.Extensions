@@ -52,6 +52,7 @@
     <Compile Include="BlockTableRecordExtensions.cs" />
     <Compile Include="DatabaseExtensions.cs" />
     <Compile Include="DBObjectExtensions.cs" />
+    <Compile Include="ObjectIdExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
