@@ -29,13 +29,13 @@ namespace Bargool.Acad.Extensions
 		}
 		
 		// Opens a collection of DBObject in ForRead mode (kaefer @ TheSwamp)
-		public static IEnumerable<T> GetObjects<T>(this IEnumerable ids) where T : DBObject
+		public static IEnumerable<T> GetObjects<T>(this IEnumerable<ObjectId> ids) where T : DBObject
 		{
 			return ids.GetObjects<T>(OpenMode.ForRead);
 		}
 
 		// Opens a collection of DBObject in the given mode (kaefer @ TheSwamp)
-		public static IEnumerable<T> GetObjects<T>(this IEnumerable ids, OpenMode mode) where T : DBObject
+		public static IEnumerable<T> GetObjects<T>(this IEnumerable<ObjectId> ids, OpenMode mode) where T : DBObject
 		{
 			return ids
 				.Cast<ObjectId>()
