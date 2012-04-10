@@ -265,5 +265,30 @@ namespace Bargool.Acad.Extensions
 		{
 			btr.AttSync(false, true, false);
 		}
+		
+		/// <summary>
+		/// Возвращает ObjectId всех вхождений блока. В том числе если блок динамический
+		/// </summary>
+		/// <param name="btr">BlockTableRecord блока, чьи вхождения надо искать</param>
+		/// <returns>Коллекцию вхождений блока, в том числе динамических</returns>
+		public static IEnumerable<ObjectId> GetAllBlockReferenceIds(this BlockTableRecord btr)
+		{
+			Database db = btr.Database;
+			IEnumerable<ObjectId> brefIds = btr
+				.GetBlockReferenceIds(false, false)
+				.Cast<ObjectId>();
+			if (btr.IsDynamicBlock)
+			{
+				brefIds
+					.Concat(
+						btr.GetAnonymousBlockIds()
+						.Cast<ObjectId>()
+						.SelectMany(
+							n => n.GetObject<BlockTableRecord>()
+							.GetBlockReferenceIds(false, false)
+							.Cast<ObjectId>()));
+			}
+			return brefIds;
+		}
 	}
 }
