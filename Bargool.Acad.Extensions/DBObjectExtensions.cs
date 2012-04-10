@@ -4,8 +4,9 @@
  * Time: 15:11
  */
 using System;
+using System.Diagnostics;
 using System.Linq;
-
+using System.Reflection;
 using acad = Autodesk.AutoCAD.ApplicationServices.Application;
 using Autodesk.AutoCAD.DatabaseServices;
 
@@ -128,6 +129,37 @@ namespace Bargool.Acad.Extensions
 				}
 				if (delDict)
 					o.ReleaseExtensionDictionary();
+			}
+		}
+		
+		/// <summary>
+		/// Метод через Reflection копирует значения свойств с аналогичными именами и типами
+		/// </summary>
+		/// <param name="o">Текущий объект</param>
+		/// <param name="source">Объект-источник, откуда копируются значения свойств. Может быть другого типа, чем o</param>
+		public static void CopyPropertiesFrom(this DBObject o, DBObject source)
+		{
+			PropertyInfo[] sourceProps = source.GetType().GetProperties(BindingFlags.Public|BindingFlags.Instance);
+			PropertyInfo[] thisProps = o.GetType().GetProperties(BindingFlags.Public|BindingFlags.Instance);
+			foreach (PropertyInfo sourcePI in sourceProps)
+			{
+				PropertyInfo thisPI = thisProps.FirstOrDefault(p =>
+				                                               p.Name == sourcePI.Name &&
+				                                               p.PropertyType == sourcePI.PropertyType &&
+				                                               p.CanRead && p.CanWrite);
+				if (sourcePI.CanRead&&sourcePI.CanWrite &&
+				    sourcePI.PropertyType.Name!="Point3d" &&
+				    thisPI!=null)
+				{
+					try
+					{
+						thisPI.SetValue(o, sourcePI.GetValue(source, null), null);
+					}
+					catch (System.Reflection.TargetInvocationException ex)
+					{
+						Debug.WriteLine(ex.InnerException.Message);
+					}
+				}
 			}
 		}
 	}
