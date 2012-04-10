@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="BlockReferenceExtensions.cs" />
     <Compile Include="BlockTableRecordExtensions.cs" />
+    <Compile Include="CurveExtensions.cs" />
     <Compile Include="DatabaseExtensions.cs" />
     <Compile Include="DBObjectExtensions.cs" />
     <Compile Include="ObjectIdExtensions.cs" />
