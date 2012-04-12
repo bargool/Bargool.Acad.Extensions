@@ -271,7 +271,7 @@ namespace Bargool.Acad.Extensions
 		/// </summary>
 		/// <param name="btr">BlockTableRecord блока, чьи вхождения надо искать</param>
 		/// <returns>Коллекцию вхождений блока, в том числе динамических</returns>
-		public static IEnumerable<ObjectId> GetAllBlockReferenceIds(this BlockTableRecord btr)
+		public static IEnumerable<ObjectId> GetAllBlockReferenceIds(this BlockTableRecord btr, bool directOnly)
 		{
 			Database db = btr.Database;
 			IEnumerable<ObjectId> brefIds = btr
@@ -285,7 +285,7 @@ namespace Bargool.Acad.Extensions
 						.Cast<ObjectId>()
 						.SelectMany(
 							n => n.GetObject<BlockTableRecord>()
-							.GetBlockReferenceIds(false, false)
+							.GetBlockReferenceIds(directOnly, false)
 							.Cast<ObjectId>()));
 			}
 			return brefIds;
