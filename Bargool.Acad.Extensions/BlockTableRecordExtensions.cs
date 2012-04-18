@@ -275,7 +275,7 @@ namespace Bargool.Acad.Extensions
 		{
 			Database db = btr.Database;
 			IEnumerable<ObjectId> brefIds = btr
-				.GetBlockReferenceIds(false, false)
+				.GetBlockReferenceIds(directOnly, false)
 				.Cast<ObjectId>();
 			if (btr.IsDynamicBlock)
 			{
