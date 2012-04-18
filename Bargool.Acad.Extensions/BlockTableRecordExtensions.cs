@@ -276,18 +276,14 @@ namespace Bargool.Acad.Extensions
 			Database db = btr.Database;
 			IEnumerable<ObjectId> brefIds = btr
 				.GetBlockReferenceIds(directOnly, false)
-				.Cast<ObjectId>();
-			if (btr.IsDynamicBlock)
-			{
-				brefIds
-					.Concat(
-						btr.GetAnonymousBlockIds()
-						.Cast<ObjectId>()
-						.SelectMany(
-							n => n.GetObject<BlockTableRecord>()
-							.GetBlockReferenceIds(directOnly, false)
-							.Cast<ObjectId>()));
-			}
+				.Cast<ObjectId>()
+				.Concat(
+					btr.GetAnonymousBlockIds()
+					.Cast<ObjectId>()
+					.SelectMany(
+						n => n.GetObject<BlockTableRecord>()
+						.GetBlockReferenceIds(directOnly, false)
+						.Cast<ObjectId>()));
 			return brefIds;
 		}
 	}
