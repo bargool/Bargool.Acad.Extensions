@@ -16,30 +16,31 @@ namespace Bargool.Acad.Extensions
 	/// </summary>
 	public static class DatabaseExtensions
 	{
-		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db)
-		{
-			return db.GetEntities(false, false, false);
-		}
-		
-		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db,
-		                                                             bool EvalOffLayers,
-		                                                             bool EvalFrozenLayers)
-		{
-			return db.GetEntities(EvalOffLayers, EvalFrozenLayers, false);
-		}
-		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db,
-		                                                             bool EvalOffLayers,
-		                                                             bool EvalFrozenLayers,
-		                                                             bool EvalAnonymBlocks)
-		{
-			return db.GetEntities(EvalOffLayers, EvalFrozenLayers, EvalAnonymBlocks, false);
-		}
+//		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db)
+//		{
+//			return db.GetEntities(false, false, false);
+//		}
+//
+//		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db,
+//		                                                             bool EvalOffLayers,
+//		                                                             bool EvalFrozenLayers)
+//		{
+//			return db.GetEntities(EvalOffLayers, EvalFrozenLayers, false);
+//		}
+//		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db,
+//		                                                             bool EvalOffLayers,
+//		                                                             bool EvalFrozenLayers,
+//		                                                             bool EvalAnonymBlocks)
+//		{
+//			return db.GetEntities(EvalOffLayers, EvalFrozenLayers, EvalAnonymBlocks, false);
+//		}
 		
 		public static Dictionary<string, List<ObjectId>> GetEntities(this Database db,
 		                                                             bool EvalOffLayers,
 		                                                             bool EvalFrozenLayers,
 		                                                             bool EvalAnonymBlocks,
-		                                                             bool EvalXrefs)
+		                                                             bool EvalXrefs,
+		                                                             bool EvalLayouts)
 		{
 			Dictionary<string, List<ObjectId>> result = new Dictionary<string, List<ObjectId>>();
 			using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -51,17 +52,14 @@ namespace Bargool.Acad.Extensions
 					if (btr.IsFromExternalReference&&!EvalXrefs)
 						continue;
 					if (btr.IsAnonymous&&!EvalAnonymBlocks)
-					{
 						continue;
-					}
-					else
+					if (btr.IsLayout&&!EvalLayouts)
+						continue;
+					foreach (KeyValuePair<string, List<ObjectId>> kvp in btr.GetObjects(EvalOffLayers, EvalFrozenLayers))
 					{
-						foreach (KeyValuePair<string, List<ObjectId>> kvp in btr.GetObjects(EvalOffLayers, EvalFrozenLayers))
-						{
-							if (!result.ContainsKey(kvp.Key))
-								result.Add(kvp.Key, new List<ObjectId>());
-							result[kvp.Key].AddRange(kvp.Value);
-						}
+						if (!result.ContainsKey(kvp.Key))
+							result.Add(kvp.Key, new List<ObjectId>());
+						result[kvp.Key].AddRange(kvp.Value);
 					}
 				}
 			}
