@@ -24,9 +24,9 @@ namespace Bargool.Acad.Extensions
 		/// <param name="o">Объект для добавления, куда добавляется Xrecord</param>
 		/// <param name="xrecordName">Имя записи</param>
 		/// <param name="buffer">Данные для добавления</param>
-		/// <param name="rewrite">Необязательный параметр. Перезаписывать Xrecord? Если false - будем добавлять в конец. По умолчанию true</param>
-		/// <param name="addDuplicates">Необязательный параметр. Добавлять дубликаты? Если false - дубликаты не добавлять. По умолчанию false</param>
-		public static void WriteXrecord(this DBObject o, string xrecordName, ResultBuffer buffer, bool rewrite = true, bool addDuplicates = false)
+		/// <param name="rewrite">Необязательный параметр. Перезаписывать Xrecord? Если false - будем добавлять в конец</param>
+		/// <param name="addDuplicates">Необязательный параметр. Добавлять дубликаты? Если false - дубликаты не добавлять</param>
+		public static void WriteXrecord(this DBObject o, string xrecordName, ResultBuffer buffer, bool rewrite, bool addDuplicates)
 		{
 			if (xrecordName == null)
 				throw new ArgumentNullException("xrecordName is null");
@@ -70,9 +70,9 @@ namespace Bargool.Acad.Extensions
 		/// <param name="o">Объект для добавления, куда добавляется Xrecord</param>
 		/// <param name="xrecordName">Имя записи</param>
 		/// <param name="tvalue">Данные для добавления</param>
-		/// <param name="rewrite">Необязательный параметр. Перезаписывать Xrecord? Если false - будем добавлять в конец. По умолчанию true</param>
-		/// <param name="addDuplicates">Необязательный параметр. Добавлять дубликаты? Если false - дубликаты не добавлять. По умолчанию false</param>
-		public static void WriteXrecord(this DBObject o, string xrecordName, TypedValue tvalue, bool rewrite = true, bool addDuplicates = false)
+		/// <param name="rewrite">Необязательный параметр. Перезаписывать Xrecord? Если false - будем добавлять в конец</param>
+		/// <param name="addDuplicates">Необязательный параметр. Добавлять дубликаты? Если false - дубликаты не добавлять</param>
+		public static void WriteXrecord(this DBObject o, string xrecordName, TypedValue tvalue, bool rewrite, bool addDuplicates)
 		{
 			o.WriteXrecord(xrecordName, new ResultBuffer(
 				new TypedValue[]{tvalue}), rewrite, addDuplicates);
