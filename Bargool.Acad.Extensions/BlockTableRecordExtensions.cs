@@ -165,7 +165,11 @@ namespace Bargool.Acad.Extensions
 						                                                     .Join(dtags2, a => a, b => b, (a, b) => a).Contains(n.Tag))) {
 							AttributeDefinition ad = attdefs2.First(n => n.Tag == attdef.Tag);
 							ad.Position = attdef.Position;
+							#if ACAD2009
+							ad.TextStyle = attdef.TextStyle;
+							#else
 							ad.TextStyleId = attdef.TextStyleId;
+							#endif
 							//Если требуется - устанавливаем для атрибута значение по умолчанию
 							if (setAttDefValues)
 								ad.TextString = attdef.TextString;
@@ -206,7 +210,11 @@ namespace Bargool.Acad.Extensions
 							AttributeDefinition ad = new AttributeDefinition();
 							ad.SetDatabaseDefaults();
 							ad.Position = attdef.Position;
+							#if ACAD2009
+							ad.TextStyle = attdef.TextStyle;
+							#else
 							ad.TextStyleId = attdef.TextStyleId;
+							#endif
 							ad.TextString = attdef.TextString;
 							ad.Tag = attdef.Tag;
 							ad.Prompt = attdef.Prompt;
