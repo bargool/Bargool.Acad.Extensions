@@ -23,10 +23,15 @@ namespace Bargool.Acad.Extensions
 		/// <returns>Если расстояние от данной точки до кривой меньше Tolerance, возвращает true</returns>
 		public static bool IsPointOnCurve(this Curve curve, Point3d point)
 		{
+			return IsPointOnCurve(curve, point, Tolerance.Global);
+		}
+		
+		public static bool IsPointOnCurve(this Curve curve, Point3d point, Tolerance tolerance)
+		{
 			try
 			{
 				Point3d pt = curve.GetClosestPointTo(point, false);
-				return (pt - point).Length <= Tolerance.Global.EqualPoint;
+				return (pt - point).Length <= tolerance.EqualPoint;
 			}
 			catch 
 			{ }
