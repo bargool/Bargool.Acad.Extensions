@@ -37,5 +37,21 @@ namespace Bargool.Acad.Extensions
 			{ }
 			return false;
 		}
+		
+		/// <summary>
+		/// Метод служит для определения длины кривой
+		/// </summary>
+		/// <param name="curve">Кривая, для которой вычисляется длина</param>
+		/// <returns>Длину кривой. Если кривая Ray или Xline - возвращает double.PositiveInfinity</returns>
+		/// <exception cref="@ArgumentNullException@">Если кривая == null</exception>
+		public static double GetLength(this Curve curve)
+		{
+			if (curve == null)
+				throw new ArgumentNullException("curve is null");
+			if (curve is Ray || curve is Xline)
+				return double.PositiveInfinity;
+			return 
+				curve.GetDistanceAtParameter(curve.EndParam) - curve.GetDistanceAtParameter(curve.StartParam);
+		}
 	}
 }
