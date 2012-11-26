@@ -55,7 +55,7 @@ namespace Bargool.Acad.Extensions
 						continue;
 					if (btr.IsLayout&&!EvalLayouts)
 						continue;
-					foreach (KeyValuePair<string, List<ObjectId>> kvp in btr.GetObjects(EvalOffLayers, EvalFrozenLayers))
+					foreach (KeyValuePair<string, List<ObjectId>> kvp in btr.GetEntities(EvalOffLayers, EvalFrozenLayers))
 					{
 						if (!result.ContainsKey(kvp.Key))
 							result.Add(kvp.Key, new List<ObjectId>());

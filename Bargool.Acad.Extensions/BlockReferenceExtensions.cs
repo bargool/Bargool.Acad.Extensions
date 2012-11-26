@@ -31,7 +31,7 @@ namespace Bargool.Acad.Extensions
 		/// </summary>
 		/// <param name="o">Вхождение блока</param>
 		/// <param name="UseDefaultTexts">Использовать ли значения по умолчанию, установленные атрибутам</param>
-		public static void AppendAttributes(this BlockReference o, bool UseDefaultTexts)
+		public static void AppendAttributes(this BlockReference o, bool UseDefaultTexts=true)
 		{
 			Database db = o.Database;
 			ObjectId blockDefinitionId = o.IsDynamicBlock ? o.DynamicBlockTableRecord : o.BlockTableRecord;
@@ -66,9 +66,9 @@ namespace Bargool.Acad.Extensions
 		/// Атрибутам присваиваются значения по умолчанию
 		/// </summary>
 		/// <param name="o">Вхождение блока</param>
-		public static void AppendAttributes(this BlockReference o)
-		{
-			AppendAttributes(o, true);
-		}
+//		public static void AppendAttributes(this BlockReference o)
+//		{
+//			AppendAttributes(o, true);
+//		}
 	}
 }

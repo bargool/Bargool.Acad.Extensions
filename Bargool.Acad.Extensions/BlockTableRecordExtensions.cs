@@ -16,11 +16,11 @@ namespace Bargool.Acad.Extensions
 	/// </summary>
 	public static class BlockTableRecordExtensions
 	{
-		public static Dictionary<string, List<ObjectId>> GetObjects(this BlockTableRecord btr)
+		public static Dictionary<string, List<ObjectId>> GetEntities(this BlockTableRecord btr)
 		{
-			return btr.GetObjects(false, false);
+			return btr.GetEntities(false, false);
 		}
-		public static Dictionary<string, List<ObjectId>> GetObjects(this BlockTableRecord btr, bool EvalOffLayers, bool EvalFrozenLayers)
+		public static Dictionary<string, List<ObjectId>> GetEntities(this BlockTableRecord btr, bool EvalOffLayers, bool EvalFrozenLayers)
 		{
 			Dictionary<string, List<ObjectId>> result = new Dictionary<string, List<ObjectId>>();
 			foreach (ObjectId id in btr)
