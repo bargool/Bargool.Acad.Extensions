@@ -22,8 +22,8 @@ namespace Bargool.Acad.Extensions
 		/// <returns>Эффективное имя блока</returns>
 		public static string GetEffectiveName(this BlockReference o)
 		{
-				BlockTableRecord btr = (BlockTableRecord)o.DynamicBlockTableRecord.GetObject(OpenMode.ForRead);
-				return btr.Name;
+			BlockTableRecord btr = (BlockTableRecord)o.DynamicBlockTableRecord.GetObject(OpenMode.ForRead);
+			return btr.Name;
 		}
 		
 		/// <summary>
@@ -61,6 +61,30 @@ namespace Bargool.Acad.Extensions
 			}
 		}
 		
+		
+		public static void SetDynamicParameterValue<T>(this BlockReference block, string paremeterName, T value)
+		{
+			if (block.IsDynamicBlock)
+			{
+				DynamicBlockReferencePropertyCollection pc = block.DynamicBlockReferencePropertyCollection;
+				DynamicBlockReferenceProperty prop = pc
+					.Cast<DynamicBlockReferenceProperty>()
+					.FirstOrDefault(p => p.PropertyName.Equals(paremeterName, StringComparison.InvariantCulture));
+				if (prop != null)
+				{
+					if (prop.PropertyTypeCode == (short)DynamicPropertyTypes.Distance)
+					{
+						prop.Value = value;
+					}
+					else if (prop.PropertyTypeCode == (short)DynamicPropertyTypes.Visibility)
+					{
+						object val = prop.GetAllowedValues()
+							.First(n => n.Equals(value));
+						prop.Value = val;
+					}
+				}
+			}
+		}
 		/// <summary>
 		/// Метод добавляет к вхождению блока атрибуты, определённые в определении блока.
 		/// Атрибутам присваиваются значения по умолчанию
