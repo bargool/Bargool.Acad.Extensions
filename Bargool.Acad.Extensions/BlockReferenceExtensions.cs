@@ -62,14 +62,14 @@ namespace Bargool.Acad.Extensions
 		}
 		
 		
-		public static void SetDynamicParameterValue<T>(this BlockReference block, string paremeterName, T value)
+		public static void SetDynamicParameterValue<T>(this BlockReference block, string parameterName, T value)
 		{
 			if (block.IsDynamicBlock)
 			{
 				DynamicBlockReferencePropertyCollection pc = block.DynamicBlockReferencePropertyCollection;
 				DynamicBlockReferenceProperty prop = pc
 					.Cast<DynamicBlockReferenceProperty>()
-					.FirstOrDefault(p => p.PropertyName.Equals(paremeterName, StringComparison.InvariantCulture));
+					.FirstOrDefault(p => p.PropertyName.Equals(parameterName, StringComparison.InvariantCulture));
 				if (prop != null)
 				{
 					if (prop.PropertyTypeCode == (short)DynamicPropertyTypes.Distance)
@@ -83,6 +83,8 @@ namespace Bargool.Acad.Extensions
 						prop.Value = val;
 					}
 				}
+				else
+					throw new ArgumentException("No parameter " + parameterName);
 			}
 		}
 		/// <summary>
