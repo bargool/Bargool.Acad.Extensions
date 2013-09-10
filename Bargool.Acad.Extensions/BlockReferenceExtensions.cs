@@ -4,7 +4,9 @@
  * Time: 17:37
  */
 using System;
+using System.Globalization;
 using System.Linq;
+
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Bargool.Acad.Extensions
@@ -62,7 +64,7 @@ namespace Bargool.Acad.Extensions
 		}
 		
 		
-		public static void SetDynamicParameterValue<T>(this BlockReference block, string parameterName, T value)
+		public static void SetDynamicParameterValue(this BlockReference block, string parameterName, string parameterValue)
 		{
 			if (block.IsDynamicBlock)
 			{
@@ -74,12 +76,12 @@ namespace Bargool.Acad.Extensions
 				{
 					if (prop.PropertyTypeCode == (short)DynamicPropertyTypes.Distance)
 					{
-						prop.Value = value;
+						prop.Value = double.Parse(parameterValue, CultureInfo.InvariantCulture);
 					}
 					else if (prop.PropertyTypeCode == (short)DynamicPropertyTypes.Visibility)
 					{
 						object val = prop.GetAllowedValues()
-							.First(n => n.Equals(value));
+							.First(n => n.ToString().Equals(parameterValue, StringComparison.InvariantCulture));
 						prop.Value = val;
 					}
 				}
