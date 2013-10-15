@@ -89,6 +89,39 @@ namespace Bargool.Acad.Extensions
 					throw new ArgumentException("No parameter " + parameterName);
 			}
 		}
+		
+		public static string GetCurrentVisibilityValue(this BlockReference block)
+		{
+			if (block.IsDynamicBlock)
+			{
+				DynamicBlockReferencePropertyCollection pc = block.DynamicBlockReferencePropertyCollection;
+				foreach (DynamicBlockReferenceProperty property in pc)
+				{
+					if (property.PropertyTypeCode == 5)
+					{
+						return property.Value.ToString();
+					}
+				}
+			}
+			return string.Empty;
+		}
+		
+		public static object GetDynamicPropertyValue(this BlockReference block, string propertyname)
+		{
+			if (block.IsDynamicBlock)
+			{
+				DynamicBlockReferencePropertyCollection pc = block.DynamicBlockReferencePropertyCollection;
+				foreach (DynamicBlockReferenceProperty property in pc)
+				{
+					if (property.PropertyName.Equals(propertyname, StringComparison.InvariantCulture))
+					{
+						return property.Value;
+					}
+				}
+			}
+			return null;
+		}
+		
 		/// <summary>
 		/// Метод добавляет к вхождению блока атрибуты, определённые в определении блока.
 		/// Атрибутам присваиваются значения по умолчанию
