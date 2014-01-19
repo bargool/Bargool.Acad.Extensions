@@ -65,9 +65,35 @@ namespace Bargool.Acad.Extensions
 			}
 		}
 		
+		public static void SetDynamicParameterValue(this BlockReference block, string parameterName, object parameterValue)
+		{
+			if (block.IsDynamicBlock)
+			{
+				DynamicBlockReferencePropertyCollection pc = block.DynamicBlockReferencePropertyCollection;
+				DynamicBlockReferenceProperty prop = pc
+					.Cast<DynamicBlockReferenceProperty>()
+					.FirstOrDefault(p => p.PropertyName.Equals(parameterName, StringComparison.InvariantCulture));
+				if (prop != null)
+				{
+					if (prop.PropertyTypeCode == (short)DynamicPropertyTypes.Distance)
+					{
+						prop.Value = parameterValue;
+					}
+					else if (prop.PropertyTypeCode == (short)DynamicPropertyTypes.Visibility)
+					{
+						object val = prop.GetAllowedValues()
+							.First(n => n == parameterValue);
+						prop.Value = val;
+					}
+				}
+				else
+					throw new ArgumentException("No parameter " + parameterName);
+			}
+		}
 		
 		public static void SetDynamicParameterValue(this BlockReference block, string parameterName, string parameterValue)
 		{
+			// TODO: Этот метод надо удалить - он лишний
 			if (block.IsDynamicBlock)
 			{
 				DynamicBlockReferencePropertyCollection pc = block.DynamicBlockReferencePropertyCollection;
