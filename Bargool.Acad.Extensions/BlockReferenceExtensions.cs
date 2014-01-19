@@ -36,6 +36,8 @@ namespace Bargool.Acad.Extensions
 		public static void AppendAttributes(this BlockReference o, bool UseDefaultTexts=true)
 		{
 			Database db = o.Database;
+			if (db == null)
+				throw new ArgumentNullException("BlockReference didn't added to databse");
 			ObjectId blockDefinitionId = o.IsDynamicBlock ? o.DynamicBlockTableRecord : o.BlockTableRecord;
 			BlockTableRecord blockDefinition = blockDefinitionId.GetObject<BlockTableRecord>();
 			if (blockDefinition == null)
