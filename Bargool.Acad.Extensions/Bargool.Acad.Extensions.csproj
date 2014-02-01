@@ -64,6 +64,7 @@
     <Compile Include="DynamicPropertyTypes.cs">
       <DependentUpon>BlockReferenceExtensions.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditorExtensions.cs" />
     <Compile Include="ObjectIdExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkingDatabaseSwitcher.cs" />
