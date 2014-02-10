@@ -14,13 +14,21 @@ using Autodesk.AutoCAD.DatabaseServices;
 namespace Bargool.Acad.Extensions
 {
 	/// <summary>
-	/// Description of PromptExtensions.
+	/// Класс для методов перегрузки различных Prompt results
 	/// </summary>
 	public static class PromptExtensions
 	{
+		/// <summary>
+		/// Получение ObjectId выделенных элементов из PromptSelectionResult
+		/// </summary>
+		/// <param name="res"></param>
+		/// <returns>Если PromptStatus.OK - возвращается ObjectId выбранных элементов, иначе - null</returns>
 		public static IEnumerable<ObjectId> GetSelectedObjectIds(this PromptSelectionResult res)
 		{
-			return res.Value.Cast<SelectedObject>().Select(so => so.ObjectId);
+			if (res.Status == PromptStatus.OK)
+				return res.Value.Cast<SelectedObject>().Select(so => so.ObjectId);
+			
+			return null;
 		}
 	}
 }
