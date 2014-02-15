@@ -134,6 +134,20 @@ namespace Bargool.Acad.Extensions
 			return string.Empty;
 		}
 		
+		public static string[] GetVisibilityValues(this BlockReference block)
+		{
+			if (block.IsDynamicBlock)
+			{
+				DynamicBlockReferencePropertyCollection pc = block.DynamicBlockReferencePropertyCollection;
+				foreach (DynamicBlockReferenceProperty property in pc)
+				{
+					if (property.PropertyTypeCode == 5)
+						return property.GetAllowedValues().Select(n => n.ToString()).ToArray();
+				}
+			}
+			return null;
+		}
+		
 		public static object GetDynamicPropertyValue(this BlockReference block, string propertyname)
 		{
 			if (block.IsDynamicBlock)
