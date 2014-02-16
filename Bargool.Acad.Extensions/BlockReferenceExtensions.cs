@@ -37,7 +37,7 @@ namespace Bargool.Acad.Extensions
 		{
 			Database db = o.Database;
 			if (db == null)
-				throw new ArgumentNullException("BlockReference didn't added to databse");
+				throw new ArgumentNullException("BlockReference didn't added to database");
 			ObjectId blockDefinitionId = o.IsDynamicBlock ? o.DynamicBlockTableRecord : o.BlockTableRecord;
 			BlockTableRecord blockDefinition = blockDefinitionId.GetObject<BlockTableRecord>();
 			if (blockDefinition == null)
@@ -118,6 +118,12 @@ namespace Bargool.Acad.Extensions
 			}
 		}
 		
+		/// <summary>
+		/// Текущее значение параметра видимости динамического блока
+		/// </summary>
+		/// <param name="block"></param>
+		/// <returns>Текущее значение параметра видиомсти,
+		/// если параметра видимости нет - пустая строка</returns>
 		public static string GetCurrentVisibilityValue(this BlockReference block)
 		{
 			if (block.IsDynamicBlock)
@@ -134,6 +140,11 @@ namespace Bargool.Acad.Extensions
 			return string.Empty;
 		}
 		
+		/// <summary>
+		/// Получение возможный значений параметра видимости
+		/// </summary>
+		/// <param name="block"></param>
+		/// <returns>Массив названий видимости. Если параметра видимости нет - null</returns>
 		public static string[] GetVisibilityValues(this BlockReference block)
 		{
 			if (block.IsDynamicBlock)
@@ -163,15 +174,5 @@ namespace Bargool.Acad.Extensions
 			}
 			return null;
 		}
-		
-		/// <summary>
-		/// Метод добавляет к вхождению блока атрибуты, определённые в определении блока.
-		/// Атрибутам присваиваются значения по умолчанию
-		/// </summary>
-		/// <param name="o">Вхождение блока</param>
-//		public static void AppendAttributes(this BlockReference o)
-//		{
-//			AppendAttributes(o, true);
-//		}
 	}
 }
