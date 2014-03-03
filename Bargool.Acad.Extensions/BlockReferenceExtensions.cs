@@ -174,5 +174,20 @@ namespace Bargool.Acad.Extensions
 			}
 			return null;
 		}
+		
+		public static string GetAttributeReferenceValue(this BlockReference block, string attTag)
+		{
+			string res;
+			using (Transaction tr = HostApplicationServices.WorkingDatabase.TransactionManager.StartTransaction())
+			{
+				var atts = block.AttributeCollection.Cast<ObjectId>()
+					.Select(id => (AttributeReference)tr.GetObject(id, OpenMode.ForRead));
+				AttributeReference att = atts.FirstOrDefault(a => a.Tag == attTag);
+				res = att != null ? att.TextString : string.Empty;
+				tr.Commit();
+			}
+			
+			return res;
+		}
 	}
 }
