@@ -82,7 +82,7 @@ namespace Bargool.Acad.Extensions
 					else if (prop.PropertyTypeCode == (short)DynamicPropertyTypes.Visibility)
 					{
 						object val = prop.GetAllowedValues()
-							.First(n => n == parameterValue);
+							.First(n => n.ToString() == parameterValue.ToString());
 						prop.Value = val;
 					}
 				}
