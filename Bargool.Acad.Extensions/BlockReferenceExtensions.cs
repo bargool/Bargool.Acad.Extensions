@@ -182,7 +182,7 @@ namespace Bargool.Acad.Extensions
 			{
 				var atts = block.AttributeCollection.Cast<ObjectId>()
 					.Select(id => (AttributeReference)tr.GetObject(id, OpenMode.ForRead));
-				AttributeReference att = atts.FirstOrDefault(a => a.Tag == attTag);
+				AttributeReference att = atts.FirstOrDefault(a => a.Tag.ToUpper() == attTag.ToUpper());
 				res = att != null ? att.TextString : string.Empty;
 				tr.Commit();
 			}
