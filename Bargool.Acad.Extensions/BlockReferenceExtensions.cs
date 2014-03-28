@@ -201,6 +201,8 @@ namespace Bargool.Acad.Extensions
 				if (attref != null)
 				{
 					attref.UpgradeOpen();
+					if (attref.HasFields)
+						attref.RemoveField();
 					attref.TextString = val;
 					result = true;
 				}
