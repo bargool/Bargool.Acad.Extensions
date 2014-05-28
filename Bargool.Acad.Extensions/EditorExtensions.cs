@@ -5,6 +5,8 @@
  */
 using System;
 using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
@@ -83,5 +85,48 @@ namespace Bargool.Acad.Extensions
 		{
 			return view.EyeToWorld().Inverse();
 		}
+
+        private static Func<ObjectId, bool> _filterObjectMethod;
+
+        public static PromptSelectionResult GetFilteredSelection(this Editor ed, PromptSelectionOptions pso)
+        {
+            return GetFilteredSelection(ed, pso, id => true);
+        }
+
+        public static PromptSelectionResult GetFilteredSelection(this Editor ed, PromptSelectionOptions pso, Func<ObjectId, bool> filterObjectMethod)
+        {
+            _filterObjectMethod = filterObjectMethod;
+            PromptSelectionResult res = ed.SelectImplied();
+
+            //IEnumerable<ObjectId> filteredObjects = null;
+
+            if (res.Status == PromptStatus.OK)
+            {
+                var filteredObjects = res.Value.GetObjectIds().Where(id => _filterObjectMethod(id));
+                ed.SetImpliedSelection(filteredObjects.ToArray());
+                res = ed.SelectImplied();
+                ed.SetImpliedSelection(new ObjectId[0]);
+            }
+            else
+            {
+                SelectionAddedEventHandler selHandler = new SelectionAddedEventHandler(ed_SelectionAdded);
+                ed.SelectionAdded += selHandler;
+                res = ed.GetSelection(pso);
+                ed.SelectionAdded -= selHandler;
+            }
+
+            return res;
+        }
+
+        private static void ed_SelectionAdded(object sender, SelectionAddedEventArgs e)
+        {
+            ObjectId[] ids = e.AddedObjects.GetObjectIds();
+
+            for (int i = 0; i < ids.Length; i++)
+            {
+                if (!_filterObjectMethod(ids[i]))
+                    e.Remove(i);
+            }
+        }
 	}
 }
