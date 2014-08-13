@@ -70,6 +70,7 @@
       <DependentUpon>BlockReferenceExtensions.cs</DependentUpon>
     </Compile>
     <Compile Include="EditorExtensions.cs" />
+    <Compile Include="LayoutManagerExtensions.cs" />
     <Compile Include="ObjectIdExtensions.cs" />
     <Compile Include="PromptExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
