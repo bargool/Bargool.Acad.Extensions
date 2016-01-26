@@ -66,12 +66,12 @@ namespace Bargool.Acad.Extensions
             return result;
         }
 
-        public static IEnumerable<ObjectId> FilterIntities(this Database db, Func<ObjectId, bool> filterFunction)
+        public static IEnumerable<ObjectId> FilterIntities(this Database db, Func<ObjectId, bool> filterFunction, bool doValidChecks = true)
         {
             ObjectId result = ObjectId.Null;
             foreach (Handle hnd in GenerateHandles(db))
             {
-                if (db.TryGetObjectId(hnd, out result) && !result.IsNull && result.IsValid && !result.IsErased && !result.IsEffectivelyErased && filterFunction(result))
+                if (db.TryGetObjectId(hnd, out result) && (!doValidChecks || result.CheckValid()) && filterFunction(result))
                     yield return result;
             }
         }
@@ -81,5 +81,27 @@ namespace Bargool.Acad.Extensions
             for (Int64 i = db.BlockTableId.Handle.Value; i < db.Handseed.Value; i++)
                 yield return new Handle(i);
         }
+
+        //public static void ForEach(this Database db, Func<ObjectId, bool> predicate, Action<Transaction, ObjectId> action)
+        //{
+        //    using (Transaction tr = db.TransactionManager.StartTransaction())
+        //    {
+        //        foreach (var id in db.FilterIntities(predicate))
+        //        {
+        //            action(tr, id);
+        //        }
+        //    }
+        //}
+
+        //public static void ForEach<T>(this Database db, Func<T, bool> predicate, Action<Transaction, T> action) where T: 
+        //{
+        //    using (Transaction tr = db.TransactionManager.StartTransaction())
+        //    {
+        //        foreach (var id in db.FilterIntities(predicate))
+        //        {
+        //            action(tr, id);
+        //        }
+        //    }
+        //}
     }
 }

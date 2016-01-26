@@ -1,6 +1,5 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
 # SharpDevelop 4.2.1.8805
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bargool.Acad.Extensions", "Bargool.Acad.Extensions\Bargool.Acad.Extensions.csproj", "{7387DF09-051C-4DFF-A442-F69DBA8C7D9A}"
 EndProject

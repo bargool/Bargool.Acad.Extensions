@@ -22,7 +22,7 @@ namespace Bargool.Acad.Extensions
         public static void WriteLine(this Editor ed, string message, params object[] parameters)
         {
             string s = string.Format(message, parameters);
-            ed.WriteMessage(s + "\n");
+            ed.WriteMessage("\n" + s);
         }
 
         /// <summary>
